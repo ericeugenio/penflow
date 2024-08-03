@@ -1,0 +1,34 @@
+{
+  "name": "core.control.loop.foreach",
+  "displayName": "For each",
+  "description": "Iterates over items in a list, allowing a block of tasks to be executed repeatedly.",
+  "summary": "$outputs.item in $properties.list",
+  "icon": "",
+  "type": "behavioral",
+  "subtasks": ["foreach"],
+  "requiredProperties": ["list"],
+  "principalProperties": ["list"],
+  "properties": {
+    "list": {
+      "order": 0,
+      "displayName": "List",
+      "description": "The list to iterate through",
+      "type": "array",
+      "items": {
+        "type": "any"
+      }
+    }
+  },
+  "outputs": {
+    "index": {
+      "displayName": "Index",
+      "description": "Index of item in list",
+      "type": "number"
+    },
+    "item": {
+      "displayName": "Item",
+      "description": "Current item value in each iteration",
+      "type": "any"
+    }
+  }
+}

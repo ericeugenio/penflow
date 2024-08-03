@@ -1,0 +1,9 @@
+bson
+fastapi
+motor
+penflowapi
+pydantic
+pymongo
+python-dotenv
+setuptools
+

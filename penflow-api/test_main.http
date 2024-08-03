@@ -1,0 +1,104 @@
+# Test your FastAPI endpoints
+
+### Healtcheck
+GET http://127.0.0.1:8000/
+Accept: application/json
+
+### Get all tasks
+GET http://127.0.0.1:8000/tasks
+Accept: application/json
+
+
+### Get a flow
+GET http://127.0.0.1:8000/flows/66a9487ce70bb69da078d77f
+Accept: application/json
+
+
+### Create a flow
+POST http://127.0.0.1:8000/flows
+Content-Type: application/json
+
+{
+    "name": "Network discovery"
+}
+
+### Run a flow
+POST http://127.0.0.1:8000/flows/66abeaf56f346b9089781e0c/run
+Content-Type: application/json
+
+{
+    "target": "192.168.0.0/24"
+}
+
+
+### Update a flow
+PUT http://127.0.0.1:8000/flows/66ac088b8ce7510950749eff
+Content-Type: application/json
+
+{
+    "name": "Network discovery (with Errors)",
+    "variables": {
+        "hosts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "displayName": "Discovered hosts",
+            "scope": "local",
+            "declaredBy": "66a6791dad6ff206c1410e7d"
+        },
+        "host": {
+            "type": "string",
+            "displayName": "Current host",
+            "scope": "local",
+            "declaredBy": "66a6791662c15dcafeadaaa0"
+        }
+    },
+    "tasks": [
+        {
+            "id": "66a6791dad6ff206c1410e7d",
+            "displayName": "Discover network",
+            "name": "nmap.host_discovery",
+            "type": "runnable",
+            "properties": {
+                "network": "$target",
+                "discoveryTechnique": "TCP SYN Ping"
+            },
+            "outputs": {
+                "upHosts": "hosts"
+            }
+        },
+        {
+            "id": "66a6791662c15dcafeadaaa0",
+            "displayName": "For each",
+            "name": "core.control.loop.foreach",
+            "type": "behavioral",
+            "properties": {
+                "list": "$hosts"
+            },
+            "outputs": {
+                "index": "",
+                "item": "host"
+            },
+            "subtasks": {
+                "foreach": [
+                    {
+                        "id": "66a679275eafe6ddaac1c67d",
+                        "displayName": "Scan target ports",
+                        "name": "nmap.port_scan",
+                        "type": "runnable",
+                        "properties": {
+                            "host": "$host",
+                            "ports": 80
+                        },
+                        "outputs": {
+                            "address": "",
+                            "discoveredPorts": "",
+                            "os": ""
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

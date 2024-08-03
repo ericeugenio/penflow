@@ -1,0 +1,41 @@
+{
+  "name": "nmap.host_discovery",
+  "displayName": "Discover network",
+  "description": "Looks for active hosts within a network",
+  "summary": "Discover active hosts in network $properties.network and store them in $outputs.upHosts",
+  "icon": "https://nmap.org/images/sitelogo-nmap.svg",
+  "type": "runnable",
+  "requiredProperties": ["network", "discoveryTechnique"],
+  "principalProperties": ["network", "discoveryTechnique"],
+  "properties": {
+    "network": {
+      "order": 0,
+      "displayName": "Network",
+      "description": "Network following CIDR-style addressing",
+      "type": "string"
+    },
+    "discoveryTechnique": {
+      "order": 1,
+      "displayName": "Discovery technique",
+      "description": "Discovery technique used",
+      "type": "enum",
+      "options": [
+        "TCP SYN Ping",
+        "TCP ACK Ping",
+        "UDP Ping",
+        "ICMP Ping"
+      ],
+      "default": "TCP SYN Ping"
+    }
+  },
+  "outputs": {
+    "upHosts": {
+      "displayName": "Hosts",
+      "description": "List of discovered hosts addresses",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
